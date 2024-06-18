@@ -28,7 +28,7 @@ To run this project locally, follow these steps:
 
    ```bash
    git clone https://github.com/pavan1003/MemeMachine.git
-   cd your-repo
+   cd MemeMachine
    ```
 
 2. **Install dependencies:**
