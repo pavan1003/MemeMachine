@@ -39,7 +39,7 @@ const MemeMachine = () => {
   const fetchMeme = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("https://oauth.reddit.com/r/ProgrammerHumor/random", {
+      const response = await axios.get("https://oauth.reddit.com/r/programmingmemes/random", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
