@@ -15,38 +15,12 @@ const MemeMachine = () => {
     return titleCaseWords.join(" ");
   };
 
-  const refreshAccessToken = async () => {
-    try {
-      const tokenResponse = await axios.post("https://www.reddit.com/api/v1/access_token", null, {
-        auth: {
-          username: import.meta.env.VITE_CLIENT_ID,
-          password: import.meta.env.VITE_CLIENT_SECRET,
-        },
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        params: {
-          grant_type: "client_credentials",
-        },
-      });
-      setAccessToken(tokenResponse.data.access_token);
-    } catch (error) {
-      console.error("Error refreshing access token: ", error);
-      throw error;
-    }
-  };
-
   const fetchMeme = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("https://oauth.reddit.com/r/programmingmemes/random", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      setMemeTitle(response.data[0].data.children[0].data.title);
-      setMeme(response.data[0].data.children[0].data.url);
+      const response = await axios.get("https://meme-api.com/gimme");
+      setMemeTitle(response.data.title);
+      setMeme(response.data.url);
     } catch (error) {
       console.error("Error fetching meme: ", error);
     } finally {
@@ -54,17 +28,9 @@ const MemeMachine = () => {
     }
   };
 
-  // Use useEffect to refresh the access token on mount
   useEffect(() => {
-    refreshAccessToken();
+    fetchMeme();
   }, []);
-
-  // Use another useEffect to fetch the meme once the accessToken is set
-  useEffect(() => {
-    if (accessToken) {
-      fetchMeme();
-    }
-  }, [accessToken]);
 
   return (
     <div className="main-content-wrapper">
@@ -74,7 +40,9 @@ const MemeMachine = () => {
         </section>
       ) : (
         <section className="main-content">
-          <button className="btn" onClick={fetchMeme}>Refresh Meme</button>
+          <button className="btn" onClick={fetchMeme}>
+            Refresh Meme
+          </button>
           <h2 className="meme-title">{toTitleCase(memeTitle)}</h2>
           <img src={meme} alt={memeTitle} className="meme-image" />
         </section>
