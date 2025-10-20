@@ -1,12 +1,8 @@
-import MemeMachine from "./MemeMachine";
 import "./assets/css/styles.css";
+import Layout from "./components/Layout";
 
 const App = () => {
-  return (
-    <main id="main">
-      <MemeMachine />
-    </main>
-  );
+  return <Layout />;
 };
 
 export default App;
